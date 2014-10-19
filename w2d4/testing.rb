@@ -1,4 +1,4 @@
-require_relative 'checkers.rb'
+require_relative 'game'
 
 
 board = Board.new(false)
