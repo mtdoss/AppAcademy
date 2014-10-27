@@ -1,0 +1,86 @@
+class InvalidArgumentError < ArgumentError
+end
+
+class CLI
+  attr_reader :user, :short_url
+  
+  def self.run
+    get_user
+    begin
+      puts "What do you want to do?"
+      puts "0. Create a shortened URL"
+      puts "1. Visit a shortened URL"
+    
+      choice = gets.chomp
+      execute_choice(choice)
+    rescue InvalidArgumentError
+      retry
+    end
+  end
+  
+  def self.get_user
+    puts "Input your email"
+    email = gets.chomp
+    @user = User.find_by(email: email)
+    @user = User.create!(email: email) if @user.nil?
+  end
+  
+  def self.execute_choice(choice)
+    case choice 
+    when "0"
+     create_short_url
+    when "1"
+      visit_short_url
+    when "q"
+      puts "Exiting now! Bye bye"
+    else
+      raise InvalidArgumentError "Please enter 0, 1, or q"
+    end
+  end
+    
+  def self.create_short_url
+    puts "Type your long URL"
+    long_url = gets.chomp
+    shortened_url = ShortenedUrl.find_by(long_url: long_url)
+    shortened_url ||= ShortenedUrl.create_for_user_and_long_url!(@user, long_url)
+    @short_url = shortened_url.short_url 
+    puts "Short url is: #{@short_url}"
+    launch_or_quit
+  end
+  
+  def self.launch_or_quit
+    puts "Select 1 to visit short URL, or any other key to quit"
+    case gets.chomp
+    when '1'
+      use_launchy
+    else
+      puts "Exiting now! Bye bye"
+    end
+  end
+
+  def self.visit_short_url
+    puts "Type in the shortened URL"
+    @short_url = gets.chomp
+    use_launchy
+    record_visit
+  end
+  
+  def self.find_long_url
+    ShortenedUrl.find_by(short_url: @short_url).long_url
+  end
+  
+  def self.use_launchy
+    Launchy.open(find_long_url)
+  end
+  
+  def self.record_visit
+    Visit.record_visit!(@user, ShortenedUrl.find_by(short_url: @short_url))
+  end
+end
+
+
+CLI.run
+
+
+
+
