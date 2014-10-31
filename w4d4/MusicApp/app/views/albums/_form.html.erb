@@ -1,0 +1,47 @@
+<% action = (@album.persisted? ? album_url(@album) : albums_url) %>
+<% method = (@album.persisted? ? :patch : :post) %>
+<% submit = (@album.persisted? ? "Update album!" : "Create new album!") %>
+<%= flash[:errors] %>
+
+<form action=<%= action %> method=<%= method %>>
+
+	 <input
+      type="hidden"
+      name="authenticity_token"
+      value="<%= form_authenticity_token %>">
+	
+	<label for="album_name">Album name</label>
+	<input
+		type="text"
+		name="album[name]"
+		id="album_name"
+		value="<%= @album.name %>">
+	<br>
+
+<label>Band
+<select name="album[band_id]">
+	<% Band.all.each do |band| %>
+	  <option value="<%= @band.id %>" 
+	  	<%= "selected" if @band.name == band.name %>>
+	  	<%= band.name.upcase %>
+	  </option> 
+   <% end %>
+</select>
+</label>
+   <br>
+   
+
+	<label for="live">Live Album</label> 
+	<input type="radio"
+		   name="album[live]"
+		   value="t">
+
+	<label for="live">Studio Album</label> 
+	<input type="radio"
+		   name="album[live]"
+		   checked
+		   value="f">
+   <br>
+
+    <input type="submit" value=<%= submit %>>
+</form>

@@ -1,0 +1,39 @@
+<h1><%=@cat.name%></h1>
+
+<head>
+  <style>
+  table, th, td {
+      border: 5px solid black; border-spacing: 2px;
+  }
+  </style>
+  
+  </head>
+
+<table>
+  <tr>
+    <th>Age</th>
+    <th>Color</th> 
+    <th>Sex</th>
+  </tr>
+  <tr>
+    <td><%=@cat.age%></td> 
+    <td><%=@cat.color%></td>
+    <td><%=@cat.sex%></td>
+  </tr>
+</table>
+<br>
+<ol>
+<%@cat.cat_rental_requests.each do |request|%>
+<li><%="From #{request.start_date} to #{request.end_date}"%></li>
+    <%= button_to "Approve", approve_cat_rental_request_url%>
+     <%= button_to "Deny", deny_cat_rental_request_url%>
+<%end%>
+<br>
+</ol>
+
+
+
+
+<%=@cat.description%>
+
+<%= link_to "All the cats", cats_url %>

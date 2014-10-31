@@ -1,0 +1,10 @@
+<h1>All the cats</h1>
+
+  <ul>
+    <%@crr.each do |crr|%>
+      <li><%=link_to crr.cat.name, cat_url(crr.cat_id)%></li>
+    <% end %>  
+    
+  
+
+</ul>

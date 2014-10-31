@@ -1,0 +1,8 @@
+<h1> <%=@track.name %> </h1> 
+<ul>
+<li> <%= @track.album.name %> </li> 
+<li> <%= link_to @track.album.band.name, album_url(@track.album) %> </li> 
+<li> <%= @track.bonus? ? "Bonus track" : "Regular track" %> </li>
+</ul> 
+
+<%= "Lyrics: #{@track.lyrics}" %>

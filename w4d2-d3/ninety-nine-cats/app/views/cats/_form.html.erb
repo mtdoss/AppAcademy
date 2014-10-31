@@ -1,0 +1,47 @@
+    
+    <% submit_text = cat.persisted? ? "Update Cat!" : "Create Cat!" %>
+    
+    <input
+      type="hidden"
+      name="authenticity_token"
+      value="<%= form_authenticity_token %>">
+    
+    <label for="cat_name">Name</label>
+    <input type="text"
+           name="cat[name]"
+           id="cat_name"
+           value="<%= cat.name %>">
+           
+    <label for="birth_date">Birth Date</label>
+    <input type="date"
+           name="cat[birth_date]"
+           id="birth_date"
+           value="<%=cat.birth_date%>">
+           
+  
+    <select name="cat[color]">
+      <option value="other">Choose Color</label>
+        <% Cat::COLORS.each do |color| %>
+          <option value="<%= color %>"
+                  <%= "selected" if cat.color == color %>>
+            <%= color.capitalize %>
+          </option>
+        <% end %>
+    </select>
+
+    <% Cat::SEX.each do |sex| %>
+      <label for="sex"><%= sex %></label>
+      <input type="radio"
+             name="cat[sex]"
+             value="<%= sex %>"
+             <%= "checked" if cat.sex == sex %>>
+    <% end %>
+    <br>
+    <br>
+    
+    <label for="Description">Description</label>
+    <br>
+      <textarea ID="Description" rows="4" cols="50"
+               name="cat[description]"><%=cat.description%></textarea>
+              
+    <input type="submit" value=<%= submit_text %>>

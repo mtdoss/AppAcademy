@@ -1,0 +1,9 @@
+<h1><%= @album.name %></h1>
+<ul>
+<li><%= link_to @album.band.name, band_url(@album.band)%></li> 
+<li><%= @album.live? ? "Live album" : "Studio Album" %>
+<% @album.tracks.each do |track| %>
+	<li><%= link_to track.name, track_url(track) %></li>
+<% end %>
+
+</ul> 

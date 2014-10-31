@@ -1,0 +1,55 @@
+<% action = (@track.persisted? ? track_url(@track) : tracks_url) %>
+<% method = (@track.persisted? ? :patch : :post) %>
+<% submit = (@track.persisted? ? "Update track!" : "Create new track!") %>
+
+
+<form action=<%= action %> method=<%= method %>>
+
+	 <input
+      type="hidden"
+      name="authenticity_token"
+      value="<%= form_authenticity_token %>">
+	
+	<label for="track_name">Track name</label>
+	<input
+		type="text"
+		name="track[name]"
+		id="track_name"
+		value="<%= @track.name %>">
+	<br>
+
+<label>Album
+<select name="track[album_id]">
+	<% Album.all.each do |album| %>
+	  <option value="<%= @album.id %>" 
+	  	<%= "selected" if @album.name == album.name %>>
+	  	<%= album.name.upcase %>
+	  </option> 
+   <% end %>
+</select>
+</label>
+   <br>
+   
+
+	<label for="bonus">Bonus Track</label> 
+	<input type="radio"
+		   name="track[bonus]"
+		   value="t">
+
+	<label for="bonus">Regular Track</label> 
+	<input type="radio"
+		   name="track[bonus]"
+		   checked
+		   value="f">
+   <br>
+
+   <label for="lyrics">Lyrics</label>
+	<input
+		type="text"
+		name="track[lyrics]"
+		id="lyrics"
+		value="<%= @track.lyrics %>">
+	<br>
+
+    <input type="submit" value=<%= submit %>>
+</form>
