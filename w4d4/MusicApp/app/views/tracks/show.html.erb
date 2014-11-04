@@ -6,3 +6,8 @@
 </ul> 
 
 <%= "Lyrics: #{@track.lyrics}" %>
+<% @track.notes.each do |note| %>
+	<%= render "notes/note", note: note %>
+<% end %>
+
+<%= render "notes/form", track: @track %>

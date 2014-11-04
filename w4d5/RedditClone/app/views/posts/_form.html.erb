@@ -1,0 +1,50 @@
+<% method = (post.persisted? ? "patch" : "post") %>
+<% action = (post.persisted? ? post_url(post) : posts_url) %>
+<% submit = (post.persisted? ? "Update post" : "Create post") %>
+
+<form action="<%= action %>", method="POST">
+  <input type="hidden" name="_method" value="<%= method %>">
+  
+  <input type="hidden"
+         name="authenticity_token"
+         value="<%= form_authenticity_token %>">
+  
+  
+  <label for="post_title">Post title:</label>
+  <input type="text"
+         name="post[title]"
+         value="<%= post.title %>"
+         id="post_title"> <br>
+         
+    <label for="content">Content:</label>
+    <input type="text"
+           name="post[content]"
+           value="<%= post.content %>"
+           id="content"> <br>
+              
+    <label for="url">URL:</label>
+    <input type="text"
+           name="post[url]"
+           value="<%= post.url %>"
+           id="url"> <br>
+                     
+   
+   
+  
+   
+    <select name="post[sub_id]">
+      <% subs.each do |sub| %>
+        <option value="<%= sub.id %>"
+                <%= "selected" if sub.id == post.sub_id %>
+                ><%= sub.title %></option>
+      <% end %>
+    </select>
+
+  <input type="hidden"
+         name="post[author_id]"
+         value = "<%= current_user.id %>"> <br>
+  
+  
+  <input type="submit" value="<%= submit %>">
+  
+</form>

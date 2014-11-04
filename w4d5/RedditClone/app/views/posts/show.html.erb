@@ -1,0 +1,8 @@
+<h2><%= @post.title %></h2>
+<h3>Posted by: <%= @post.author.name %> </h3>
+<% if @post.url %>
+<p><%= link_to @post.title, @post.url %></p>
+<% else %>
+<p><%= @post.content %></p>
+<% end %><br>
+<%= link_to @post.sub.title, sub_url(@post.sub) %>
