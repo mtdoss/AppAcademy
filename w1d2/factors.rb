@@ -3,3 +3,4 @@ def factors(num)
     print "#{i}, " if num % i == 0
   end
 end
+  
