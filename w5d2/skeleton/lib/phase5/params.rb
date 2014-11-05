@@ -27,7 +27,7 @@ module Phase5
 
     class AttributeNotFoundError < ArgumentError; end;
 
-    private
+    # private
     # this should return deeply nested hash
     # argument format
     # user[address][street]=main&user[address][zip]=89436
@@ -35,16 +35,57 @@ module Phase5
     # { "user" => { "address" => { "street" => "main", "zip" => "89436" } } }
     def parse_www_encoded_form(www_encoded_form)
       parsed_arr = URI::decode_www_form(www_encoded_form)
-      @params ||= {}
+      @params = {}
       parsed_arr.each do |key, val|
-        @params[key] = val
-      end
+        keys_array = parse_key(key)
+        current = @params
+
+        keys_array.each_with_index do |key, i|
+          # byebug
+          if i == keys_array.count - 1
+            current[key] = val   
+          else
+            current[key] ||= {}
+            current = current[key]
+          end
+        end
+      end  
       @params
-    end      
+    end    
+
+    # def parse_www_encoded_form(www_encoded_form)
+    #   parsed_arr = URI::decode_www_form(www_encoded_form)
+    #   @params = {}
+    #   current = @params
+    #   parsed_arr.each do |key, val|
+    #     keys_array = parse_key(key).reverse
+
+    #     keys_array.each_with_index do |key, i|
+    #       # byebug
+    #       if i == 0
+    #         current = {key => val}   
+    #       else
+    #         current = {key => current}
+    #       end
+    #     end
+    #   end  
+    #   current
+    # end  
 
     # this should return an array
     # user[address][street] should return ['user', 'address', 'street']
     def parse_key(key)
+      key.split(/\]\[|\[|\]/)
     end
   end
 end
+
+# ["user", "address", "street"] => main   3rd element points to main
+# ["user", "address", "zip"] => 89436     3rd element points to 89436
+
+# if __FILE__ == $PROGRAM_NAME
+#   require 'byebug'
+#   require 'WEBrick'
+#   p = Phase5::Params.new(WEBrick::HTTPRequest.new(Logger: nil))
+#   p p.parse_www_encoded_form("user[address][street]=main&user[address][zip]=89436")
+# end
