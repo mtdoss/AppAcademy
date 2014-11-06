@@ -9,13 +9,9 @@ module Phase4
       found_cookie = nil
 
       req.cookies.each do |cookie|
-        if cookie.name == '_rails_lite_app'
-          found_cookie = cookie
-        end
+        found_cookie = cookie if cookie.name == '_rails_lite_app'
       end
       @cookie = found_cookie.nil? ? {} : JSON.parse(found_cookie.value)
-
-
     end
 
     def [](key)

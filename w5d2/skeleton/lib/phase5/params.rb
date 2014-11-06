@@ -41,7 +41,6 @@ module Phase5
         current = @params
 
         keys_array.each_with_index do |key, i|
-          # byebug
           if i == keys_array.count - 1
             current[key] = val   
           else

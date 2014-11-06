@@ -7,7 +7,7 @@ class AssocOptions
     :foreign_key,
     :class_name,
     :primary_key
-  )
+    )
 
   def model_class
     class_name.constantize
@@ -44,10 +44,19 @@ end
 
 module Associatable
   # Phase IIIb
-  def belongs_to(name, options = {})
-    options = BelongsToOptions.new(name, options)
+  # def belongs_to(name, options = {})
+  #   options = BelongsToOptions.new(name, options)
 
+  #   define_method(name) do
+  #     fkey = self.send(options.foreign_key) 
+  #     options.model_class.where(options.primary_key => fkey).first
+  #   end
+  # end
+  def belongs_to(name, options = {})
+    self.assoc_options[name] = BelongsToOptions.new(name, options)
+    
     define_method(name) do
+      options = self.class.assoc_options[name]
       fkey = self.send(options.foreign_key) 
       options.model_class.where(options.primary_key => fkey).first
     end
