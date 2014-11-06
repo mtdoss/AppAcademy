@@ -23,16 +23,18 @@ module Phase6
     # instantiate controller and call controller action
     def run(req, res)
       match = @pattern.match(req.path) # match is a regexp object
-      @route_params = []
+      route_params = {}
       match.names.each do |name|
-       @route_params = name[value]
+        route_params[name] = match[name]
       end
       #why don't we send route_params to controller initialize?
       #iterate through... req.path? what?
-
-      @controller_class.new(req, res).invoke_action(@action_name)
+      
+      @controller_class.new(req, res, route_params).invoke_action(@action_name)
     end
   end
+
+
 
   class Router
     attr_reader :routes
@@ -49,6 +51,7 @@ module Phase6
     # evaluate the proc in the context of the instance
     # for syntactic sugar :)
     def draw(&proc)
+      instance_eval(&proc)  
     end
 
     # make each of these methods that
@@ -61,11 +64,21 @@ module Phase6
 
     # should return the route that matches this request
     def match(req)
-      
+      @routes.each do |route|
+        return route if route.matches?(req)
+      end
+      return nil
     end
 
     # either throw 404 or call run on a matched route
     def run(req, res)
+      matching_route = match(req)
+      if matching_route.nil?
+        res.status = 404
+      else
+        matching_route.run(req, res)
+      end
+
     end
   end
 end
