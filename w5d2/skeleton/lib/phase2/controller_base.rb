@@ -12,7 +12,6 @@ module Phase2
     # Helper method to alias @already_built_response
     def already_built_response?
         @already_built_response
-        # raise "Can't render twice" if @already_built_response == true
     end
 
     # Set the response status code and header
