@@ -1,0 +1,53 @@
+#board {
+  width: 802px;
+}
+
+.stack {
+  width: 200px;
+  height: 250px;
+  margin: 0 15px;
+  border: 2px solid black;
+  float: left;
+/*  position: relative;*/
+}
+
+.stack:before {
+  content: "";
+  height: 100%;
+  display: inline-block;
+}
+
+.disks {
+  width: 100%;
+  display: inline-block;
+}
+
+.disk{
+  height: 20px;  
+  margin: 0 auto;
+}
+
+
+.disk-1 {
+  width: 30px;
+  background: blue;
+}
+
+.disk-2 {
+  width: 65px;
+  background: green;
+}
+
+.disk-3 {
+  width: 80px;
+  background: red;
+}
+
+.disk-4 {
+  width: 100px;
+  background: pink;
+}
+/*
+* {
+  box-sizing: border-box;
+}*/

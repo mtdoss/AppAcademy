@@ -1,0 +1,11 @@
+.row{
+  width: 312px;
+  height: 100px;
+}
+
+.square{
+ width: 100px;
+ height: 100px;
+ border: 2px solid black; 
+ float: left;
+}

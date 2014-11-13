@@ -3,7 +3,6 @@
     window.Asteroids = {};
   }
   
-
   var Game = Asteroids.Game = function(){
     
     this.DIM_X = 800;
